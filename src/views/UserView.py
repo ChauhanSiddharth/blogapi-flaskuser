@@ -49,8 +49,20 @@ def get_a_user(user_id):
     user = UserModel.get_one_user(user_id)
     if not user:
         return custom_response({'error': 'user not found'}, 404)
-    
-    ser_user = user_schema.dump(user).data
+
+    ser_user = user_schema.dump(user)
+    return custom_response(ser_user, 200)
+
+@user_api.route('/id/<int:user_id>', methods=['GET'])
+def get_a_userName(user_id):
+    """
+    Get a single user
+    """
+    user = UserModel.get_one_user(user_id)
+    if not user:
+        return custom_response({'error': 'user not found'}, 404)
+
+    ser_user = user_schema.dump({'name':user.name})
     return custom_response(ser_user, 200)
 
 @user_api.route('/me', methods=['PUT'])
@@ -92,7 +104,7 @@ def get_me():
 @user_api.route('/login', methods=['POST'])
 def login():
     req_data = request.get_json()
-
+    print("---->",req_data)
     data = user_schema.load(req_data, partial=True)
 
     # if error:
