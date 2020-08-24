@@ -1,6 +1,6 @@
 #src/app.py
 
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request
 from .config import app_config
 from .models import db, bcrypt
 from flask_cors import CORS, cross_origin
@@ -35,14 +35,14 @@ def create_app(env_name):
     def login():
         return render_template('login.html')
 
+    @app.route('/register', methods=['GET'])
+    @cross_origin()
+    def register():
+        return render_template('register.html')
+
     @app.route('/profile', methods=['GET'])
     @cross_origin()
     def profile():
         return render_template('profile.html')
-
-    @app.route('/js/<path:path>')
-    def send_js(path):
-        print("Heheheh")
-        return send_from_directory('js', path)
 
     return app

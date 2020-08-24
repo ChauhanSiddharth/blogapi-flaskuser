@@ -6,7 +6,7 @@ from flask import json, Response, request, g
 from functools import wraps
 from ..models.UserModel import UserModel
 
-os.environ["JWT_SECRET_KEY"]  = "1313"
+
 class Auth():
     """
     Auth Class
