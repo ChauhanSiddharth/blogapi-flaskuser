@@ -19,7 +19,7 @@ fetch('http://127.0.0.1:5000/api/v1/blogposts/')
             .then(resp => resp.json())
             .then(function(getName) {
                 // console.log(getName);
-                $(".list-group").append("<li class='list-group-item'><a rel='external' href='Category_News.html?ID=" + 
+                $(".list-group").append("<li class='list-group-item'><a rel='external' href='#" + 
                     blog.id + "'>" + blog.title + "</a> - " + blog.content + " by " + getName.name + "</li>");
             })
             .catch(function(error) {
