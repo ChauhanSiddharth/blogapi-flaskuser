@@ -17,9 +17,8 @@ def create():
     req_data = request.get_json()
     req_data['owner_id'] = g.user.get('id')
     data = blogpost_schema.load(req_data)
-    #data, error = blogpost_schema.load(req_data)
-    # if error:
-    #     return custom_response(error, 400)
+    if not data:
+        return custom_response({'error': 'post not found'}, 400)
     post = BlogpostModel(data)
     post.save()
     data = blogpost_schema.dump(post)
@@ -63,8 +62,8 @@ def update(blogpost_id):
         return custom_response({'error': 'permission denied'}, 400)
     
     data = blogpost_schema.load(req_data, partial=True)
-    # if error:
-    #     return custom_response(error, 400)
+    if not data:
+        return custom_response({'error': 'post not found'}, 400)
     post.update(data)
     
     data = blogpost_schema.dump(post)

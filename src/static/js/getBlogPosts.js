@@ -8,7 +8,6 @@ fetch('http://127.0.0.1:5000/api/v1/blogposts/')
     }
 
     response.json().then(function(data) {
-        // console.log(data);
         $.each(data, function() {
             var blog = {
                 id : this.id,
@@ -18,7 +17,6 @@ fetch('http://127.0.0.1:5000/api/v1/blogposts/')
             fetch('http://127.0.0.1:5000/api/v1/users/id/'+ this.owner_id)
             .then(resp => resp.json())
             .then(function(getName) {
-                // console.log(getName);
                 $(".list-group").append("<li class='list-group-item'><a rel='external' href='#" + 
                     blog.id + "'>" + blog.title + "</a> - " + blog.content + " by " + getName.name + "</li>");
             })

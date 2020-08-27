@@ -14,10 +14,9 @@ def create():
     req_data = request.get_json()
     data = user_schema.load(req_data)
 
-    # if error:
-    #     return custom_response(error, 400)
+    if not data:
+        return custom_response({'error': 'user not found'}, 400)
     
-    # check if user already exist in the db
     user_in_db = UserModel.get_user_by_email(data.get('email'))
     if user_in_db:
         message = {'error': 'User already exist, please supply another email address'}
@@ -71,9 +70,9 @@ def update():
     Update me
     """
     req_data = request.get_json()
-    data, error = user_schema.load(req_data, partial=True)
-    if error:
-        return custom_response(error, 400)
+    data = user_schema.load(req_data, partial=True)
+    if not data:
+        return custom_response({'error': 'user not found'}, 400)
 
     user = UserModel.get_one_user(g.user.get('id'))
     user.update(data)
@@ -103,11 +102,10 @@ def get_me():
 @user_api.route('/login', methods=['POST'])
 def login():
     req_data = request.get_json()
-    print("---->",req_data)
     data = user_schema.load(req_data, partial=True)
 
-    # if error:
-    #     return custom_response(error, 400)
+    if not data:
+        return custom_response({'error': 'user not found'}, 400)
     
     if not data.get('email') or not data.get('password'):
         return custom_response({'error': 'you need email and password to sign in'}, 400)
